@@ -43,12 +43,14 @@ entity Product :cuid{
     @title:'ProductName'
     productname:String(30);
     @title:'Product Image URL'
-    ProductImg:String(30);
+    ProductImg:String default 'https://i.pinimg.com/236x/3e/a9/47/3ea947c7c2ae57d763a9442fee8f1f2a.jpg';
     @title:'Product Cost Price'
     ProductCP:String(10);
     @title:'Product Sell Price'
     ProductSP:String(10);
-}
+    
+};
+
 entity Stock :cuid{
     @title:'Store_id'
     storeid:Association to Store;
@@ -61,21 +63,46 @@ entity Purchase:cuid{
     @title:'PurchaseOrderNumer'
     order_no:String(2);
     @title:'BusinessPartner'
-    BusinessPartner:String(10);
+    BusinessPartner:Association to BusinessPartner;
     @title:'PurchaseOrderDate'
-    order_date:String(10);
-     Items:Composition of many{
-        key ID:UUID;
-        item:Association to Items;
-    }
-}
-entity Items:cuid{
+    order_date:Date;
+    @title:' Store_id'
+      Store_id:Association to Store;
+    Items:Composition of many {
     @title:' product_id'
      product_id:Association  to Product;
      @title:'Quantity'
-     qty: Association  to Stock;
+     qty: String(4);
      @title:'Price'
      price:String(5);
-     @title:'store_id'
-     store_id:Association to Store;
+      
+    }
+    //  Items:Composition of many{
+    //     key ID:UUID;
+    //     item:Association to Items;
+    // }
+}
+entity Sales:cuid{
+    @title:'Sales Order Number'
+    order_no:String(3);
+    @title:'BusinessPartner'
+    bp:Association to BusinessPartner;
+    @title:'SalesDate'
+    date:Date;
+        
+    //  Items:Composition of many{
+    //     key ID:UUID;
+    //     item:Association to Items;
+    // }
+     @title:' Store_id'
+      Store_id:Association to Store;
+    Items:Composition of many {
+    @title:' product_id'
+     product_id:Association  to Product;
+     @title:'Quantity'
+     qty: Integer;
+     @title:'Price'
+     price:String(5);
+
+    }
 }

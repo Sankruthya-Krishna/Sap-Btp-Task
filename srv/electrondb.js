@@ -1,7 +1,7 @@
 const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
-    const { BusinessPartner, States,Store,Product } = this.entities;
+    const { BusinessPartner, States,Store,Product,Purchase,Sales } = this.entities;
 
     this.on("READ", BusinessPartner, async (req) => {
         const results = await cds.run(req.query);
@@ -15,6 +15,14 @@ module.exports = cds.service.impl(async function () {
         const results = await cds.run(req.query);
         return results;
     });
+    this.on("READ", Purchase, async (req) => {
+        const results = await cds.run(req.query);
+        return results;
+    });
+    this.on("READ", Sales, async (req) => {
+        const results = await cds.run(req.query);
+        return results;
+    });
     this.before(["CREATE"],Product,async(req)=>{
         const {ProductCP,ProductSP,ID} =req.data;
         if(ProductSP<ProductCP){
@@ -25,6 +33,37 @@ module.exports = cds.service.impl(async function () {
             });
         }
     });
+    this.before(["CREATE"], Purchase, async (req) => {
+        const { Items } = req.data;
+        for (const item of Items) {
+            const product = await cds.read(Product).where({ ID: item.product_id_ID });
+            const productCP = parseFloat(product[0].ProductCP);
+            const price = parseFloat(item.price);
+            if (price > productCP) {
+                req.error({
+                    code: "INVALIDPRICE",
+                    message: "Price should not be greater than cost price for product: " + product[0].productname,
+                    target: "Items",
+                });
+            }
+        }
+    });
+    this.before(["CREATE"], Sales, async (req) => {
+        const { Items } = req.data;
+        for (const item of Items) {
+            const product = await cds.read(Product).where({ ID: item.product_id_ID });
+            const productSP = parseFloat(product[0].ProductSP);
+            const price = parseFloat(item.price);
+            if (price < productSP) {
+                req.error({
+                    code: "INVALIDPRICE",
+                    message: "Price should be greater than sell price for product: " + product[0].productname,
+                    target: "Items",
+                });
+            }
+        }
+    });
+    
 
     this.before(["CREATE"], BusinessPartner, async (req) => {
         const { gst_registered, gst_no } = req.data;

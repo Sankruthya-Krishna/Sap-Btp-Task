@@ -69,6 +69,7 @@ entity Purchase:cuid{
     @title:' Store_id'
       Store_id:Association to Store;
     Items:Composition of many {
+        key ID:UUID;
     @title:' product_id'
      product_id:Association  to Product;
      @title:'Quantity'
@@ -97,6 +98,7 @@ entity Sales:cuid{
      @title:' Store_id'
       Store_id:Association to Store;
     Items:Composition of many {
+        key ID:UUID;
     @title:' product_id'
      product_id:Association  to Product;
      @title:'Quantity'

@@ -117,7 +117,7 @@ annotate TaskService.Sales.Items with @(
 
 annotate TaskService.Purchase.Items with @(
     UI.LineItem                 : [
-        {Value: ID},
+        // {Value: ID},
         {Value: product_id_ID},
         {Value: qty},
         {Value: price},
@@ -129,7 +129,7 @@ annotate TaskService.Purchase.Items with @(
     UI.FieldGroup #PurchaseItems: {
         $Type: 'UI.FieldGroupType',
         Data : [
-            {Value: ID},
+            // {Value: ID},
             {
                 $Type: 'UI.DataField',
                 Label: 'Purchase_order_no',
@@ -161,7 +161,7 @@ annotate TaskService.Purchase with @(
         {Value: order_no},
         {Value: BusinessPartner_ID},
         {Value: order_date},
-        {Value: Store_id_ID},
+        {Value: Store_id.name},
     ],
     UI.FieldGroup #Purchases: {
         $Type: 'UI.FieldGroupType',
@@ -510,33 +510,9 @@ annotate TaskService.Store with {
         }
     )
 };
-
 annotate TaskService.Stock with {
     storeid @(
-        Common.Text                    : storeid.storeid,
-        Common.TextArrangement         : #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList               : {
-            Label         : 'Storeid',
-            CollectionPath: 'Store',
-            Parameters    : [
-                {
-                    $Type            : 'Common.ValueListParameterInOut',
-                    LocalDataProperty: 'storeid_ID',
-                    ValueListProperty: 'ID'
-                },
-                {
-                    $Type            : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty: 'name'
-                }
-            ]
-        }
-    )
-}
-
-annotate TaskService.Stock with {
-    storeid @(
-        Common.Text                    : storeid.storeid,
+        Common.Text                    : storeid.name,
         Common.TextArrangement         : #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList               : {
@@ -584,7 +560,7 @@ annotate TaskService.Sales with {
 //annotate TaskService.Purchase with
 annotate TaskService.Purchase with {
     Store_id @(
-        Common.Text                    : Store_id.storeid,
+        Common.Text                    : Store_id.name,
         Common.TextArrangement         : #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList               : {

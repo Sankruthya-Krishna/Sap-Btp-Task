@@ -1,2 +1,5 @@
 ID,bp_no,name,pincode,gst_registered,gst_no
 f5f9b4b9-cd1e-467d-bd5b-f1d030974808,55,John Doe,"110023",Yes,GSTIN1234567890
+f5f9b4b9-cd1e-467d-bd5b-f1d030974809,56,Jane Smith,"560001",No,
+f5f9b4b9-cd1e-467d-bd5b-f1d030974810,57,Michael Johnson,"400001",Yes,GSTIN0987654321
+f5f9b4b9-cd1e-467d-bd5b-f1d030974811,58,Alice Williams,"700001",No,
